@@ -7,10 +7,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import models.Note;
 
 /**
  *
@@ -30,8 +33,10 @@ public class NoteServlet extends HttpServlet
         String title = br.readLine();
         String content = br.readLine();
         
-        request.setAttribute("label", title);
-        request.setAttribute("stuff", content);
+        Note n = new Note(title, content);
+        
+        request.setAttribute("label", n.getTitle());
+        request.setAttribute("stuff", n.getContent());
         
         br.close();      
         
@@ -53,17 +58,24 @@ public class NoteServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
+        String str = request.getParameter("editTitle");
+        String str2 =request.getParameter("editContent");
+        
+        Note n = new Note(str, str2);
+        request.setAttribute("label", n.getTitle());
+        request.setAttribute("stuff", n.getContent());
+        
         // declare path
         String path = getServletContext().getRealPath("/WEB-INF/note.txt");
         
         // to write to a file
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path, false))); 
-        
-        String str = request.getParameter("edit");
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
+        pw.write(n.getTitle() + "\n");
+        pw.write(n.getContent());
+        pw.close();
         
         getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp")
             .forward(request, response);
-        
     }
 
     
