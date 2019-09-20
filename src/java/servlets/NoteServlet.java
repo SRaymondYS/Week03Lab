@@ -35,8 +35,9 @@ public class NoteServlet extends HttpServlet
         
         Note n = new Note(title, content);
         
-        request.setAttribute("label", n.getTitle());
-        request.setAttribute("stuff", n.getContent());
+        //request.setAttribute("label", n.getTitle());
+        //request.setAttribute("stuff", n.getContent());
+        request.setAttribute("note", n);
         
         br.close();      
         
@@ -59,11 +60,12 @@ public class NoteServlet extends HttpServlet
             throws ServletException, IOException 
     {
         String str = request.getParameter("editTitle");
-        String str2 =request.getParameter("editContent");
+        String str2 = request.getParameter("editContent");
         
         Note n = new Note(str, str2);
-        request.setAttribute("label", n.getTitle());
-        request.setAttribute("stuff", n.getContent());
+        //request.setAttribute("label", n.getTitle());
+        //request.setAttribute("stuff", n.getContent());
+        request.setAttribute("note", n);
         
         // declare path
         String path = getServletContext().getRealPath("/WEB-INF/note.txt");
