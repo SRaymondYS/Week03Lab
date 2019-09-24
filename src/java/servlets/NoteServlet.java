@@ -63,8 +63,6 @@ public class NoteServlet extends HttpServlet
         String str2 = request.getParameter("editContent");
         
         Note n = new Note(str, str2);
-        //request.setAttribute("label", n.getTitle());
-        //request.setAttribute("stuff", n.getContent());
         request.setAttribute("note", n);
         
         // declare path
